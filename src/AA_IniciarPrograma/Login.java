@@ -29,7 +29,7 @@ public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
-        System.out.println("comprobacion");
+     
         this.setLocationRelativeTo(null);
 
     }
