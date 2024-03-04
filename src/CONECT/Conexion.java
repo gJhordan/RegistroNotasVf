@@ -26,7 +26,7 @@ public class Conexion {
 //                System.out.println("CONECTADO");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("No se pudo  " + e);
+            System.out.println("No se conectó " + e);
         }
         return con;
     }
