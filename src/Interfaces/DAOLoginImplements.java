@@ -17,13 +17,14 @@ import java.sql.SQLException;
  */
 public class DAOLoginImplements implements DAOLogin {
 
-    java.sql.Connection con = Conexion.conect();
 
     PreparedStatement ps;
     ResultSet rs;
 
     @Override
     public int intentarlogin(Usuario usuario) {
+        
+    java.sql.Connection con = Conexion.conect();
         int ComparacionR;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT CodigoUsu from usuarios where CodigoUsu = ? AND ClaveUsu = ?;");
@@ -32,7 +33,7 @@ public class DAOLoginImplements implements DAOLogin {
             rs = ps.executeQuery();
             rs.next();
             ComparacionR = rs.getRow();
-            ps.close();
+            con.close();
             return ComparacionR;
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -42,6 +43,8 @@ public class DAOLoginImplements implements DAOLogin {
 
     @Override
     public void sumarintentos(Usuario usuario) {
+        
+    java.sql.Connection con = Conexion.conect();
         try {
             int intentos = 0;
             ps = (PreparedStatement) con.prepareStatement("SELECT IntentosUsu from usuarios where CodigoUsu = ? ;");
@@ -57,7 +60,7 @@ public class DAOLoginImplements implements DAOLogin {
             ps.setString(2, usuario.getCodigoUsu());
 
             ps.executeUpdate();
-            ps.close();
+            con.close();
 
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -65,6 +68,8 @@ public class DAOLoginImplements implements DAOLogin {
     }
 
     public int comprobarintentos(Usuario usuario) {
+        
+    java.sql.Connection con = Conexion.conect();
         int intentos = 0;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT IntentosUsu from usuarios where CodigoUsu = ? ;");
@@ -74,7 +79,7 @@ public class DAOLoginImplements implements DAOLogin {
             while (rs.next()) {
                 intentos = rs.getInt(1);
             }
-            ps.close();
+            con.close();
             return intentos;
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -83,6 +88,8 @@ public class DAOLoginImplements implements DAOLogin {
     }
 
     public int compararusuario(Usuario usuario) {
+        
+    java.sql.Connection con = Conexion.conect();
         int ComparacionR;
         try {
             ps =  (PreparedStatement) con.prepareStatement("SELECT CodigoUsu from usuarios where CodigoUsu = ? ;");
@@ -90,7 +97,7 @@ public class DAOLoginImplements implements DAOLogin {
             rs = ps.executeQuery();
             rs.next();
             ComparacionR = rs.getRow();
-            ps.close();
+            con.close();
             return ComparacionR;
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
