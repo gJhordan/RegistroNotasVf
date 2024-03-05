@@ -22,13 +22,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TablasHorarioDocenteAlumno {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-    ResultSetMetaData rsmd; //declara variable ResultSetMetaData
+   //declara variable ResultSetMetaData
     int columnas;
 
 public DefaultTableModel cargarTabla(JTable tabla, String nombretabla, String nombrecondicional, Usuario usuario,EstadoPeriodos estPe) {
+      Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
+    ResultSetMetaData rsmd;
         DefaultTableModel modeloTabla = (DefaultTableModel) tabla.getModel();
         modeloTabla.setRowCount(0);
 
@@ -59,13 +60,17 @@ public DefaultTableModel cargarTabla(JTable tabla, String nombretabla, String no
                 }
                 modeloTabla.addRow(fila);
             }
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERROR SQL: " + e);
         }
         return modeloTabla;
     }
 public DefaultTableModel cargarTablaAlumno(JTable tabla, String nombretabla, String nombrecondicional, Usuario usuario, EstadoPeriodos estPe) {
+    Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
+    ResultSetMetaData rsmd;
         DefaultTableModel modeloTabla = (DefaultTableModel) tabla.getModel();
         modeloTabla.setRowCount(0);
 
@@ -96,7 +101,7 @@ public DefaultTableModel cargarTablaAlumno(JTable tabla, String nombretabla, Str
             }
             modeloTabla.addRow(fila);
         }
-        ps.close();
+        con.close();
     } catch (SQLException e) {
         System.out.println("ERROR SQL: " + e);
     }

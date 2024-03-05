@@ -19,19 +19,18 @@ import javax.swing.JOptionPane;
  */
 public class DAOSolicitudesImplement implements DAOSolicitudes {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-
     @Override
     public void cambiarEstadoSolicitudDocente(SolDocentes SolDoc) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
 
         try {
             ps = (PreparedStatement) con.prepareStatement("UPDATE solcambiodocente SET estado_sol  = ? WHERE Id_SolDocente = ? ");
             ps.setString(1, SolDoc.getEstado());
             ps.setInt(2, SolDoc.getIDSol());
             ps.executeUpdate();
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -39,7 +38,8 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
 
     @Override
     public void ActualizarDocente(SolDocentes SolDoc) {
-           Connection con2 = Conexion.conect();
+
+        Connection con2 = Conexion.conect();
         PreparedStatement ps2;
         ResultSet rs2;
         try {
@@ -47,7 +47,7 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
             ps2.setInt(1, SolDoc.getIDDoc());
             ps2.setInt(2, SolDoc.getNroSeccion());
             ps2.executeUpdate();
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -56,13 +56,16 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
 
     @Override
     public void ObtenerInfoCurso(SolDocentes SolDoc) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT nombre_curso FROM cursos INNER JOIN secciones ON cursos.curso_id = secciones.curso_id  Where secciones.seccion_id = ? ;");
             ps.setInt(1, SolDoc.getNroSeccion());
             rs = ps.executeQuery();
             rs.next();
             SolDoc.setNombreCurso(rs.getString(1));
-            ps.close();
+            con.close();
 
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -71,6 +74,9 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
 
     @Override
     public void ObtenerInfoDocente(SolDocentes SolDoc) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         try {
             //     System.out.println(docente.getCodigoUsu());
             ps = (PreparedStatement) con.prepareStatement("SELECT `nombre`,`ApellidoP`, `ApellidoM`, `Profesión`, `docente_id` FROM `docentes` WHERE `CodigoUsu` = ? ;");
@@ -80,7 +86,7 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
             SolDoc.setNmcDocenteNuevo(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
             SolDoc.setEspecializacionDocNuevo(rs.getString(4));
             SolDoc.setIDDoc(rs.getInt(5));
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -105,13 +111,13 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
                 Combo.addItem(rs1.getString(1));
 
             }
-           // System.out.println("paso el combo");
+            // System.out.println("paso el combo");
             int i = Combo.getItemCount();
             if (i == 0) {
                 JOptionPane.showMessageDialog(null, "No existen docentes disponibles en el horario del curso");
             }
             //   System.out.println("paso el if igual 0");
-            ps1.close();
+            con1.close();
             // System.out.println("paso el close");
             return i;
         } catch (SQLException e) {
@@ -123,6 +129,9 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
 
     @Override
     public void getHorarios(SolDocentes SolDoc) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         int num = 0;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT dia_semana, turno FROM horarios  WHERE id_horario = ? ;");
@@ -137,6 +146,7 @@ public class DAOSolicitudesImplement implements DAOSolicitudes {
                 SolDoc.setDiasemanaEsp(1, "nada");
                 SolDoc.setTurnoEsp(1, "nada");
             }
+            con.close();
         } catch (SQLException e) {
 
             System.out.println("ERRORSQL: " + e);

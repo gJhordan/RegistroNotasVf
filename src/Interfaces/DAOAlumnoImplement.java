@@ -18,12 +18,10 @@ import javax.swing.JOptionPane;
  */
 public class DAOAlumnoImplement implements DAOAlumno {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-
     @Override
     public void registrar(Alumno alumno) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
         try {
             ps = (PreparedStatement) con.prepareStatement("INSERT INTO usuarios (CodigoUsu, ClaveUsu, RolUsu) VALUES( ? , ? , ? );");
             ps.setString(1, alumno.getCodigoUsu());
@@ -48,7 +46,7 @@ public class DAOAlumnoImplement implements DAOAlumno {
             System.out.println(alumno.getCodigoUsu());
             System.out.println(alumno.getClave());
             JOptionPane.showMessageDialog(null, "Cuenta de Alumno Creada\nCodigo Generado: " + alumno.getCodigoUsu() + "\nClave Generada: " + alumno.getClave());
-
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -56,6 +54,9 @@ public class DAOAlumnoImplement implements DAOAlumno {
 
     @Override
     public int comparar(Alumno alumno) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         int ComparacionR;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT CodigoUsu from usuarios where CodigoUsu = ? ;");
@@ -63,7 +64,7 @@ public class DAOAlumnoImplement implements DAOAlumno {
             rs = ps.executeQuery();
             rs.next();
             ComparacionR = rs.getRow();
-            ps.close();
+            con.close();
             return ComparacionR;
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -109,7 +110,7 @@ public class DAOAlumnoImplement implements DAOAlumno {
 
                 resultados[1] = alumpago.getEstadoPago();
             }
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERROR SQL: " + e);
         }
@@ -128,9 +129,29 @@ public class DAOAlumnoImplement implements DAOAlumno {
             ps1.setString(1, nuevoEstado);
             ps1.setInt(2, alumpago.getID());
             ps1.executeUpdate();
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("Error al actualizar el estado de pago: " + e);
         }
+    }
+
+    @Override
+    public void ConvalidarCursos(Alumno alumno) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+     
+           try {
+            String sql = "INSERT INTO recordnotas (curso_id, alumno_id, VecesCursado, estado) SELECT c.curso_id, (SELECT alumno_id from alumnos where CodigoUsu = ?) AS alumno_id, 1 AS VecesCursado, 'C' AS estado FROM cursos c WHERE c.ciclo_curso BETWEEN 1 AND ?;";
+            ps = (PreparedStatement) con.prepareStatement(sql);
+           
+            ps.setString(1, alumno.getCodigoUsu());
+             ps.setInt(2, alumno.getCiclo()-1);
+            ps.executeUpdate();
+            con.close();
+          
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el estado de pago: " + e);
+        }
+        
     }
 }

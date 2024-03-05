@@ -335,7 +335,7 @@ public class PagarMatricula extends javax.swing.JFrame {
 
             // Mostrar mensaje de confirmación
             JOptionPane.showMessageDialog(this, "Se realizó el pago exitosamente", "Pago Exitoso", JOptionPane.INFORMATION_MESSAGE);
-
+            
             dispose();
 //            PagarMatricula pM = new PagarMatricula();
 //            pM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

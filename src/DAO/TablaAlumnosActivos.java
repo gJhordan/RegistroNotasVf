@@ -20,13 +20,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TablaAlumnosActivos {
      EstadoPeriodos VEPST = ValoresEstaticos.VEPST;
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-    ResultSetMetaData rsmd; //declara variable ResultSetMetaData
+   
     int columnas;
 
     public void CargarTabla(JTable tabla, String nombretabla, String nombrecondicional) {
+         Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
+    ResultSetMetaData rsmd; //declara variable ResultSetMetaData
         DefaultTableModel jTableAlumnosA = (DefaultTableModel) tabla.getModel(); //para usar el diseño de la tabla creada
         jTableAlumnosA.setRowCount(0);// para que cada que se inicie el programa muestre la informacion sin acumularlo
 
@@ -58,7 +59,7 @@ public class TablaAlumnosActivos {
                 jTableAlumnosA.addRow(data[i]);
             }
 
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }

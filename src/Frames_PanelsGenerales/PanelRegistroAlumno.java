@@ -229,13 +229,17 @@ public class PanelRegistroAlumno extends javax.swing.JPanel {
                     if (alumno.getDNI().length() == 8) {
                         if (CheckBeca.isSelected()) {
                             alumno.setValBeca("1");
-                        }else{
-                             alumno.setValBeca("2");
+                        } else {
+                            alumno.setValBeca("2");
                         }
                         alumno.setCodigoUsu(GenerarCodigo(alumno.getDNI(), alumno.getEdad()));
                         alumno.setClave(GenerarClave(alumno.getDNI(), alumno.getEdad()));
 
                         DAOa.registrar(alumno);
+                        if (alumno.getCiclo() != 1) {
+                            DAOa.ConvalidarCursos(alumno);
+                            JOptionPane.showMessageDialog(null, "Este alumno es de nuevo ingreso por ello se estan \n convalidando todos sus cursos de ciclos pasados");
+                        }
                         CmbBox_Carreras.setSelectedIndex(0);
                         CmbBoxCiclos.setSelectedIndex(0);
                         Limpiar(TxtEdadAlumno);
@@ -329,7 +333,7 @@ public class PanelRegistroAlumno extends javax.swing.JPanel {
 
     private void TxtCorreoPAlumnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtCorreoPAlumnoKeyTyped
         char c = evt.getKeyChar();
-        if (TxtCorreoPAlumno.getText().length() > 29 ) {
+        if (TxtCorreoPAlumno.getText().length() > 29) {
             evt.consume();
         }
         if (!Character.isLetterOrDigit(c) && c != '@' && c != '.' && c != '_' && c != '-' && c != KeyEvent.VK_BACK_SPACE) {

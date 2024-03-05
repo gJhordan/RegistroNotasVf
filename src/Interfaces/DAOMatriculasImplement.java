@@ -53,7 +53,7 @@ public class DAOMatriculasImplement implements DAOMatriculas {
                 }
                 modeloTabla.addRow(fila);
             }
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -112,7 +112,7 @@ public class DAOMatriculasImplement implements DAOMatriculas {
                 }
                 modeloTabla.addRow(fila);
             }
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -191,7 +191,7 @@ public class DAOMatriculasImplement implements DAOMatriculas {
                 }
                 modeloTabla.addRow(fila);
             }
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -224,7 +224,7 @@ public class DAOMatriculasImplement implements DAOMatriculas {
 
             ps2.executeUpdate();
 
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -254,7 +254,7 @@ public class DAOMatriculasImplement implements DAOMatriculas {
 
             ps2.executeUpdate();
 
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 

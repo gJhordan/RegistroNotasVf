@@ -21,13 +21,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Tablas {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-    ResultSetMetaData rsmd; //declara variable ResultSetMetaData
+    //declara variable ResultSetMetaData
     int columnas;
 
     public void CargarTablaPeriodos(JTable tabla, String nombretabla, String nombrecondicional) {
+         Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
+    ResultSetMetaData rsmd;
         DefaultTableModel modeloTabla = (DefaultTableModel) tabla.getModel(); //para usar el diseño de la tabla creada
         modeloTabla.setRowCount(0);// para que cada que se inicie el programa muestre la informacion sin acumularlo
 
@@ -48,7 +49,7 @@ public class Tablas {
                 }
                 modeloTabla.addRow(fila); // se utiliza para agregar una nueva fila a un modelo de tabla existente
             }
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -57,6 +58,10 @@ public class Tablas {
     }
   
     public void CargarTablaSolicitudDoc(JTable tabla, String nombretabla, String nombrecondicional) {
+         Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
+    ResultSetMetaData rsmd;
         DefaultTableModel modeloTabla = (DefaultTableModel) tabla.getModel(); //para usar el diseño de la tabla creada
         modeloTabla.setRowCount(0);// para que cada que se inicie el programa muestre la informacion sin acumularlo
 
@@ -77,7 +82,7 @@ public class Tablas {
                 }
                 modeloTabla.addRow(fila); // se utiliza para agregar una nueva fila a un modelo de tabla existente
             }
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 

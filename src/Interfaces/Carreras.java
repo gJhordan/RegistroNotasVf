@@ -17,11 +17,10 @@ import javax.swing.JComboBox;
  */
 public class Carreras {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-
     public void RellenarCmbcarrera(JComboBox combo) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT nombre_carrera from Carreras;");
             rs = ps.executeQuery();
@@ -30,7 +29,7 @@ public class Carreras {
                 // System.out.println("En el carreras: "+rs.getString(1));
             }
 
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -39,7 +38,9 @@ public class Carreras {
     }
 
     public void RellenarCiclo(JComboBox combo, String nombreCarrera) {
-        
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         int ciclos = 0;
         try {
             //System.out.println("en el ciclos"+nombreCarrera);
@@ -54,7 +55,7 @@ public class Carreras {
                 //  System.out.println(ciclos);
                 combo.addItem(i);
             }
-            ps.close();
+            con.close();
 
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);

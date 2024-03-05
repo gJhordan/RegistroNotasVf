@@ -13,12 +13,13 @@ import javax.swing.JOptionPane;
 
 public class DAOsolDocenteImplement implements DAOsolDocente {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
+ 
+    
     
     @Override
     public void registrar(EnviarSolicitudDocente soldocente) {
+           Connection con = Conexion.conect();
+    PreparedStatement ps;
         try {
             ps = (PreparedStatement) con.prepareStatement("INSERT INTO solcambiodocente (seccion_id, CodigoUsu, motivo_sol, estado_sol) VALUES (?, ?, ?, ?);");
 
@@ -29,6 +30,7 @@ public class DAOsolDocenteImplement implements DAOsolDocente {
             ps.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Solicitud registrada Correctamente " );
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }

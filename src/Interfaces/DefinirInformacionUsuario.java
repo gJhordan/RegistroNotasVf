@@ -21,15 +21,15 @@ import java.sql.SQLException;
 public class DefinirInformacionUsuario {
 
 
-   Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
+   
     Usuario Usua = ValoresEstaticos.Usu;
     Docente DocS = ValoresEstaticos.Doc;
     Alumno AluS = ValoresEstaticos.Alu;
 
     public void DefinirUsuario(String CodUsuario) {
-
+Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT `CodigoUsu`,`RolUsu` FROM `usuarios` WHERE `CodigoUsu` = ? ;");
 
@@ -43,7 +43,7 @@ public class DefinirInformacionUsuario {
             }
 
             if (Usua.getRol().equals("Administrador")) {
-                ps.close();
+                con.close();
             } else {
                 if (Usua.getRol().equals("Docente")) {
                     DefinirDocente(CodUsuario);
@@ -60,6 +60,9 @@ public class DefinirInformacionUsuario {
     }
 
     public void DefinirDocente(String CodUsuario) {
+        Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT * FROM docentes WHERE `CodigoUsu` = ? ;");
 
@@ -78,7 +81,7 @@ public class DefinirInformacionUsuario {
 
             }
             Usua.setNombrecompleto();
-            ps.close();
+            con.close();
 
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -87,6 +90,9 @@ public class DefinirInformacionUsuario {
     }
 
     public void DefinirAlumno(String CodUsuario) {
+        Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT * FROM alumnos WHERE `CodigoUsu` = ? ;");
 
@@ -105,7 +111,7 @@ public class DefinirInformacionUsuario {
                 AluS.setCiclo(rs.getInt(11));
             }
             Usua.setNombrecompleto();
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }

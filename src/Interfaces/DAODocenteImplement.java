@@ -19,12 +19,11 @@ import javax.swing.JOptionPane;
  */
 public class DAODocenteImplement implements DAODocente {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-
     @Override
     public void registrar(Docente docente) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         try {
             ps = (PreparedStatement) con.prepareStatement("INSERT INTO usuarios (CodigoUsu, ClaveUsu, RolUsu) VALUES( ? , ? , ? );");
             ps.setString(1, docente.getCodigoUsu());
@@ -49,6 +48,7 @@ public class DAODocenteImplement implements DAODocente {
             System.out.println(docente.getCodigoUsu());
             System.out.println(docente.getClave());
             JOptionPane.showMessageDialog(null, "Cuenta de Docente Creada\nCodigo Generado: " + docente.getCodigoUsu() + "\nClave Generada: " + docente.getClave());
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -57,6 +57,9 @@ public class DAODocenteImplement implements DAODocente {
 
     @Override
     public int comparar(Docente docente) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         int ComparacionR;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT CodigoUsu from usuarios where CodigoUsu = ? ;");
@@ -64,7 +67,7 @@ public class DAODocenteImplement implements DAODocente {
             rs = ps.executeQuery();
             rs.next();
             ComparacionR = rs.getRow();
-            ps.close();
+            con.close();
             return ComparacionR;
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -79,25 +82,28 @@ public class DAODocenteImplement implements DAODocente {
 
     @Override
     public void CargarDocentesDisponibles(Docente docente) {
-      }
+    }
 
-        @Override
+    @Override
     public void DefinirDocente(Docente docente) {
-   try {
-  //     System.out.println(docente.getCodigoUsu());
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try {
+            //     System.out.println(docente.getCodigoUsu());
             ps = (PreparedStatement) con.prepareStatement("SELECT `nombre`,`ApellidoP`, `ApellidoM`, `Profesión` FROM `docentes` WHERE `CodigoUsu` = ? ;");
-             ps.setString(1, docente.getCodigoUsu());
+            ps.setString(1, docente.getCodigoUsu());
             ps.executeQuery();
-           
+
             rs = ps.executeQuery();
             while (rs.next()) {
                 docente.setNombre(rs.getString(1));
-               docente.setApeP(rs.getString(2));
-               docente.setApeM(rs.getString(3));
-               docente.setEspecializacion(rs.getString(4));
+                docente.setApeP(rs.getString(2));
+                docente.setApeM(rs.getString(3));
+                docente.setEspecializacion(rs.getString(4));
             }
             docente.setNombrecompleto();
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }

@@ -18,24 +18,23 @@ import java.sql.SQLException;
  */
 public class DAOSsolicitudRetiroAlumnoImplement {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-
     public void cambiarEstadoSolicitudAlumno(SolicitudesInfo SolReAlum) {
-
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
         try {
             ps = (PreparedStatement) con.prepareStatement("UPDATE solretiroalumno SET estado_sol  = ? WHERE idSolAlumno = ? ");
             ps.setString(1, SolReAlum.getEstado());
             ps.setInt(2, SolReAlum.getIDSol());
             ps.executeUpdate();
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
     }
 
     public void cambiarEstadoCuentaAlumno(SolAlumnos SolActAlum) {
+        Connection con = Conexion.conect();
+
         try {
             String consultaAlumnoId = "SELECT alumno_id FROM alumnos WHERE CodigoUsu = ?";
             String consultaEstadoSeccion = "SELECT id_estado_seccionxalumno FROM seccionxalumno WHERE alumno_id = ? AND seccion_id = ?";
@@ -60,12 +59,12 @@ public class DAOSsolicitudRetiroAlumnoImplement {
                     psUpdateEstado.executeUpdate();
                     psUpdateEstado.close();
                 }
-                psEstadoSeccion.close();
+                con.close();
             }
             psAlumno.close();
         } catch (SQLException e) {
             // Manejo de errores
-            e.printStackTrace();
+              System.out.println("ERRORSQL: " + e);
         }
     }
 }

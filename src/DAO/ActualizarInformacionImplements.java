@@ -38,7 +38,7 @@ public void actualizarCorreo(String nuevoCorreo, String rol, String codigoUsuari
         ps.setString(2, usuario.getCodigoUsu());
 
         ps.executeUpdate();
-        ps.close();
+        con.close();
         } catch (SQLException e) {
         System.out.println("ERRORSQL: " + e);
         }
@@ -68,7 +68,7 @@ public void actualizarTelefono(int nuevoTelefono, String rol, String codigoUsuar
         ps2.setString(2, usuario.getCodigoUsu());
 
         ps2.executeUpdate();
-        ps2.close();
+        con.close();
         } catch (SQLException e) {
         System.out.println("ERRORSQL: " + e);
         }

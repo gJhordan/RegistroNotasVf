@@ -16,12 +16,11 @@ public class DAOSeccionesImplement implements DAOSecciones {
 
     Secciones Secca = ValoresEstaticos.VES;
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
-
     @Override
     public void registrarSeccion(Secciones seccion, Horario horarios) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         try {
             System.out.println(Secca.getSeccionID());
             int iddocente = obetenerIDs(seccion, "docentes", "docente_id", "CodigoUsu", Secca.getCodigoDocenteSeccion());
@@ -33,7 +32,7 @@ public class DAOSeccionesImplement implements DAOSecciones {
 
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Nuevo Curso Registrado en el periodo " + Secca.getPeriodoSeccion());
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORFINAL");
             System.out.println("ERRORSQL: " + e);
@@ -42,6 +41,9 @@ public class DAOSeccionesImplement implements DAOSecciones {
 
     @Override
     public int comparar(Secciones seccion) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         int ComparacionR;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT seccion_id from secciones where seccion_id = ? ;");
@@ -49,7 +51,7 @@ public class DAOSeccionesImplement implements DAOSecciones {
             rs = ps.executeQuery();
             rs.next();
             ComparacionR = rs.getRow();
-            ps.close();
+            con.close();
             return ComparacionR;
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -59,6 +61,9 @@ public class DAOSeccionesImplement implements DAOSecciones {
 
     @Override
     public void cargar(Secciones seccion, JComboBox cmb) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT nombre_curso from cursos where ciclo_curso = ?;");
             ps.setInt(1, seccion.getCicloSeccion());
@@ -68,7 +73,7 @@ public class DAOSeccionesImplement implements DAOSecciones {
 
             }
 
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -77,6 +82,9 @@ public class DAOSeccionesImplement implements DAOSecciones {
 
     @Override
     public int obtenerSesiones(Secciones seccion) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         int valor = 0;
         try {
             ps = (PreparedStatement) con.prepareStatement("SELECT sesiones from cursos where nombre_curso = ?;");
@@ -85,7 +93,7 @@ public class DAOSeccionesImplement implements DAOSecciones {
             rs.next();
             valor = rs.getInt(1);
 
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -107,7 +115,7 @@ public class DAOSeccionesImplement implements DAOSecciones {
             ps1.setString(4, Secca.getNotasTip(valorlista));
             ps1.setInt(5, Secca.getNotasPorcentajes()[valorlista]);
             ps1.executeUpdate();
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -115,6 +123,9 @@ public class DAOSeccionesImplement implements DAOSecciones {
 
     @Override
     public int obetenerIDs(Secciones seccion, String tablasql, String valorSql, String condicionalsql, String igualar) {
+        Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
         int valor = 0;
         //System.out.println("igualar: " + igualar);
         try {
@@ -124,7 +135,7 @@ public class DAOSeccionesImplement implements DAOSecciones {
             rs.next();
             valor = rs.getInt(1);
             //System.out.println("valor id:" + valor);
-
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERROR IDS");
             System.out.println("ERRORSQL: " + e);

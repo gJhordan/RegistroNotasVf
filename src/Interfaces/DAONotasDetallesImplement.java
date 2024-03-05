@@ -42,7 +42,7 @@ public class DAONotasDetallesImplement implements DAONotasDetalles {
                 valor++;
             }
             EAP.calcularNotas();
-            ps1.close();
+            con1.close();
 
             return valor;
         } catch (SQLException e) {
@@ -85,7 +85,7 @@ public class DAONotasDetallesImplement implements DAONotasDetalles {
                     default:
                         break;
                 }
-                ps1.close();
+                con1.close();
                 return valor;
             } else {
                 ps1.close();
@@ -110,7 +110,7 @@ public class DAONotasDetallesImplement implements DAONotasDetalles {
             ps.setInt(3, NotasD.getNroNota());
             ps.setInt(4, NotasD.getNroseccionDoc());
             ps.executeUpdate();
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -142,7 +142,7 @@ public class DAONotasDetallesImplement implements DAONotasDetalles {
             ps1.setObject(6, nota3);
             ps1.executeUpdate();
 
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -163,7 +163,7 @@ public class DAONotasDetallesImplement implements DAONotasDetalles {
             ps1.setDouble(5, NotasD.getNotaFinal());
             ps1.executeUpdate();
 
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -184,10 +184,10 @@ public class DAONotasDetallesImplement implements DAONotasDetalles {
             rs1 = ps1.executeQuery();
             if (rs1.next()) {
                 NotasD.setNotaUnica(rs1.getInt(1));
-                ps1.close();
+                con1.close();
                 return 0;
             } else {
-                ps1.close();
+                con1.close();
                 return 0;
             }
 
@@ -216,7 +216,7 @@ public class DAONotasDetallesImplement implements DAONotasDetalles {
             ps1.setObject(4, nota1);
             ps1.executeUpdate();
 
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 

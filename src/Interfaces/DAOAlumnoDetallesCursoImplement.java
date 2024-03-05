@@ -38,7 +38,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
                 Cmb.addItem(rs.getString(2));
             }
 
-            ps.close();
+            con.close();
 
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -60,7 +60,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
                 ADC.setPeriodoID(rs.getInt(1));
             }
 
-            ps.close();
+            con.close();
 
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -90,7 +90,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
                 b++;
             }
             ADC.setNroCursos(b);
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -114,7 +114,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
                 Valor++;
             }
 
-            ps3.close();
+            con3.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -140,7 +140,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
                 }
             }
 
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -161,7 +161,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
                 }
 
             }
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -181,7 +181,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
             ps2.setInt(2, ADC.getPeriodoID());
             rs2 = ps2.executeQuery();
             while (rs2.next()) {
-                 System.out.println(ponderado);
+                System.out.println(ponderado);
                 if (rs2.getObject(1) != null) {
                     ponderado = ponderado + rs2.getDouble(1);
                     System.out.println(ponderado);
@@ -194,7 +194,7 @@ public class DAOAlumnoDetallesCursoImplement implements DAOAlumnoDetallesCurso {
 
                 ADC.setPonderado(pf);
             }
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 

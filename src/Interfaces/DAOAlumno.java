@@ -16,4 +16,5 @@ public interface DAOAlumno {
     public int comparar(Alumno alumno);
        public String[] validarPagoMatricula (Alumno alumpago);
         public void actualizarEstadoPago(Alumno alumpago, String nuevoEstado);
+        public void ConvalidarCursos(Alumno alumno);
 }

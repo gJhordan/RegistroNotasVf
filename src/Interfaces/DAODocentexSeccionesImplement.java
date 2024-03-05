@@ -61,7 +61,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                 }
                 modeloTabla.addRow(fila);
             }
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -94,7 +94,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                 a++;
             }
             DxS.setNroAlumnos(a);
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -115,7 +115,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                 DxS.setAlumnoID(rs1.getInt(1));
 //                System.out.println(DxS.getAlumnoID());
             }
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -140,7 +140,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                 }
             }
 
-            ps5.close();
+          con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -162,7 +162,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                 }
 
             }
-            ps2.close();
+ con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -187,7 +187,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
 
             }
 
-            ps1.close();
+             con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -224,7 +224,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
             ps1.setInt(3, ENS.getIdAlumno(i));
             ps1.executeUpdate();
 
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -251,7 +251,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                         if (rs2.next()) {
                             cantidad = rs2.getInt(1);
                         }
-                        ps2.close();
+                        con2.close();
                     } catch (SQLException e) {
                         System.out.println("ERRORSQL: " + e);
 
@@ -265,7 +265,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                             ps4.setInt(1, DxS.getNroNotaActual() + 1);
                             ps4.setInt(2, DxS.getNroseccionDoc());
                             ps4.executeUpdate();
-                            ps4.close();
+                            con4.close();
                             JOptionPane.showMessageDialog(null, "Notas Subidas al sistema");
                             if (DxS.getNroNotaActual() == 3) {
                                 DxS.setNroNotaActual(4);
@@ -292,7 +292,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                             cantidad = rs3.getInt(1);
                             System.out.println("CA: " + cantidad);
                         }
-                        ps3.close();
+                        con3.close();
                     } catch (SQLException e) {
                         System.out.println("ERRORSQL: " + e);
 
@@ -307,7 +307,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                             ps4.setInt(2, DxS.getNroseccionDoc());
                             ps4.executeUpdate();
 
-                            ps4.close();
+                            con4.close();
                             JOptionPane.showMessageDialog(null, "Notas Subidas al sistema");
                             if (DxS.getNroNotaActual() == 3) {
                                 DxS.setNroNotaActual(4);
@@ -336,7 +336,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                             if (rs4.next()) {
                                 cantidad = rs4.getInt(1);
                             }
-                            ps4.close();
+                            con4.close();
                         } catch (SQLException e) {
                             System.out.println("ERRORSQL: " + e);
 
@@ -390,7 +390,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                 i++;
             }
             ENS.mostrarDatos();
-            ps2.close();
+            con2.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 
@@ -420,7 +420,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
                 }
                 modeloTabla.addRow(fila);
             }
-            ps1.close();
+            con1.close();
               System.out.println("ACABO CARGA");
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
@@ -485,7 +485,7 @@ public class DAODocentexSeccionesImplement implements DAODocentexSecciones {
             } else {
                 DxS.setNroNotaActual(0);
             }
-            ps1.close();
+            con1.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
 

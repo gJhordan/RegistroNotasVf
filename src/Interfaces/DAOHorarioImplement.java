@@ -21,13 +21,14 @@ import javax.swing.JOptionPane;
  */
 public class DAOHorarioImplement implements DAOHorario {
 
-    Connection con = Conexion.conect();
-    PreparedStatement ps;
-    ResultSet rs;
+   
     Secciones Secca = ValoresEstaticos.VES;
 
     @Override
     public void RegistrarHorario(Horario horario, int valorlista) {
+         Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
         try {
             System.out.println(Secca.getSeccionID());
             ps = (PreparedStatement) con.prepareStatement("INSERT INTO horarios (id_horario, dia_semana, turno, nrosesion) VALUES (?, ?, ?, ?); ");
@@ -37,6 +38,7 @@ public class DAOHorarioImplement implements DAOHorario {
             ps.setInt(4, horario.getNrosesion()[valorlista]);
 
             ps.executeUpdate();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -47,7 +49,9 @@ public class DAOHorarioImplement implements DAOHorario {
 
         String[] Listaturnos = horario.getTurno();
         String[] Lista = horario.getDiasemana();
-
+         Connection con = Conexion.conect();
+    PreparedStatement ps;
+    ResultSet rs;
         try {
             /*System.out.println(Lista[0]);
             System.out.println(Listaturnos[0]);
@@ -71,7 +75,7 @@ public class DAOHorarioImplement implements DAOHorario {
                 JOptionPane.showMessageDialog(null, "No existen docentes disponibles en ese horario, escoja otro");
             }
 
-            ps.close();
+            con.close();
             return i;
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);

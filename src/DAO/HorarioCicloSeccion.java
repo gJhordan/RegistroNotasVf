@@ -35,7 +35,7 @@ public class HorarioCicloSeccion {
                 }
 
             }
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL: " + e);
         }
@@ -56,7 +56,7 @@ public class HorarioCicloSeccion {
                 ciclo = rs.getInt(1);
 
             }
-            ps.close();
+            con.close();
         } catch (SQLException e) {
             System.out.println("ERRORSQL NO CARGO CICLO: " + e);
             ciclo = 99;
