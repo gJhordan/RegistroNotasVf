@@ -37,12 +37,16 @@ public class DAOMatriculasImplement implements DAOMatriculas {
         modeloTabla.setRowCount(0);
 
         try {
-            ps1 = (PreparedStatement) con1.prepareStatement("SELECT c.curso_id, c.nombre_curso, COUNT(*) AS cantidad_resultados FROM cursos c JOIN secciones s ON c.curso_id = s.curso_id LEFT JOIN seccionxalumno sx ON s.seccion_id = sx.seccion_id AND sx.alumno_id = ? WHERE s.periodo_id = ? AND s.id_estado_seccion = 1 AND c.ciclo_curso = ? AND sx.seccion_id IS NULL  AND s.nroinscritos < 10 AND c.curso_id NOT IN (SELECT DISTINCT c2.curso_id FROM cursos c2 JOIN secciones s2 ON c2.curso_id = s2.curso_id JOIN seccionxalumno sx2 ON s2.seccion_id = sx2.seccion_id WHERE sx2.alumno_id = ?) GROUP BY c.curso_id, c.nombre_curso;");
+            ps1 = (PreparedStatement) con1.prepareStatement("SELECT c.curso_id, c.nombre_curso, COUNT(*) AS cantidad_resultados FROM cursos c JOIN secciones s ON c.curso_id = s.curso_id LEFT JOIN seccionxalumno sx ON s.seccion_id = sx.seccion_id AND sx.alumno_id = ? WHERE s.periodo_id = ? AND s.id_estado_seccion = 1 AND sx.seccion_id IS NULL  AND s.nroinscritos < 10 AND c.curso_id NOT IN (SELECT DISTINCT c2.curso_id FROM cursos c2 JOIN secciones s2 ON c2.curso_id = s2.curso_id JOIN seccionxalumno sx2 ON s2.seccion_id = sx2.seccion_id WHERE sx2.alumno_id = ?) AND ((c.curso_id NOT IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ?)) OR (c.curso_id NOT IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ? AND estado IN ('C', 'A')) AND c.curso_id IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ? AND estado = 'D'))) AND (c.curso_desbloqueador_id = 0 OR EXISTS (SELECT 1 FROM cursos c_desbloq JOIN recordnotas rn ON c_desbloq.curso_id = rn.curso_id WHERE c.curso_desbloqueador_id = c_desbloq.curso_id AND rn.alumno_id = ? AND rn.estado IN ('A', 'C'))) GROUP BY c.curso_id, c.nombre_curso;");
             ps1.setInt(1, matri.getAlumnoid());
             ps1.setInt(2, matri.getPeriodoid());
-            ps1.setInt(3, matri.getCicloid());
+            ps1.setInt(3, matri.getAlumnoid());
             ps1.setInt(4, matri.getAlumnoid());
+            ps1.setInt(5, matri.getAlumnoid());
+            ps1.setInt(6, matri.getAlumnoid());
+            ps1.setInt(7, matri.getAlumnoid());
             rs1 = ps1.executeQuery();
+          
             rsmd1 = rs1.getMetaData();
             columnas1 = rsmd1.getColumnCount();
 
@@ -72,11 +76,11 @@ public class DAOMatriculasImplement implements DAOMatriculas {
         modeloTabla.setRowCount(0);
 
         try {
-            ps2 = (PreparedStatement) con2.prepareStatement("SELECT s.seccion_id, CONCAT(d.nombre, ' ', d.ApellidoP, ' ', d.ApellidoM) AS nombre_docente, CONCAT(h1.dia_semana, '-', h1.turno) AS sesion1, CONCAT(h2.dia_semana, '-', h2.turno) AS sesion2, CASE WHEN h1.id_horario IS NOT NULL AND h2.id_horario IS NOT NULL THEN 2 WHEN h1.id_horario IS NOT NULL THEN 1 ELSE 0 END AS cantidad_sesiones FROM cursos c JOIN secciones s ON c.curso_id = s.curso_id LEFT JOIN seccionxalumno sx ON s.seccion_id = sx.seccion_id AND sx.alumno_id = ?   LEFT JOIN docentes d ON s.docente_id = d.docente_id LEFT JOIN horarios h1 ON s.id_horario = h1.id_horario AND h1.nrosesion = 1 LEFT JOIN horarios h2 ON s.id_horario = h2.id_horario AND h2.nrosesion = 2 WHERE s.periodo_id = ? AND s.id_estado_seccion = '1' AND c.ciclo_curso = ? AND c.curso_id = ? AND s.nroinscritos < 10 AND sx.seccion_id IS NULL;");
+            ps2 = (PreparedStatement) con2.prepareStatement("SELECT s.seccion_id, CONCAT(d.nombre, ' ', d.ApellidoP, ' ', d.ApellidoM) AS nombre_docente, CONCAT(h1.dia_semana, '-', h1.turno) AS sesion1, CONCAT(h2.dia_semana, '-', h2.turno) AS sesion2, CASE WHEN h1.id_horario IS NOT NULL AND h2.id_horario IS NOT NULL THEN 2 WHEN h1.id_horario IS NOT NULL THEN 1 ELSE 0 END AS cantidad_sesiones FROM cursos c JOIN secciones s ON c.curso_id = s.curso_id LEFT JOIN seccionxalumno sx ON s.seccion_id = sx.seccion_id AND sx.alumno_id = ?   LEFT JOIN docentes d ON s.docente_id = d.docente_id LEFT JOIN horarios h1 ON s.id_horario = h1.id_horario AND h1.nrosesion = 1 LEFT JOIN horarios h2 ON s.id_horario = h2.id_horario AND h2.nrosesion = 2 WHERE s.periodo_id = ? AND s.id_estado_seccion = '1' AND c.curso_id = ? AND s.nroinscritos < 10 AND sx.seccion_id IS NULL;");
             ps2.setInt(1, matri.getAlumnoid());
             ps2.setInt(2, matri.getPeriodoid());
-            ps2.setInt(3, matri.getCicloid());
-            ps2.setInt(4, matri.getCursoID());
+            
+            ps2.setInt(3, matri.getCursoID());
 
             rs2 = ps2.executeQuery();
             rsmd2 = rs2.getMetaData();
@@ -132,10 +136,10 @@ public class DAOMatriculasImplement implements DAOMatriculas {
         modeloTabla.setRowCount(0);
 
         try {
-            ps2 = (PreparedStatement) con2.prepareStatement(" SELECT s.seccion_id, CONCAT(h1.dia_semana, '-', h1.turno) AS sesion1, CONCAT(h2.dia_semana, '-', h2.turno) AS sesion2, CONCAT(d.nombre, ' ', d.ApellidoP, ' ', d.ApellidoM) AS nombre_docente, c.nombre_curso, CASE WHEN h1.id_horario IS NOT NULL AND h2.id_horario IS NOT NULL THEN 2 WHEN h1.id_horario IS NOT NULL THEN 1 ELSE 0 END AS cantidad_sesiones FROM seccionxalumno sa JOIN secciones s ON sa.seccion_id = s.seccion_id JOIN cursos c ON s.curso_id = c.curso_id JOIN docentes d ON s.docente_id = d.docente_id LEFT JOIN horarios h1 ON s.id_horario = h1.id_horario AND h1.nrosesion = 1 LEFT JOIN horarios h2 ON s.id_horario = h2.id_horario AND h2.nrosesion = 2 WHERE sa.alumno_id = ? AND s.periodo_id = ? AND s.id_estado_seccion = '1' AND c.ciclo_curso = ?;");
+            ps2 = (PreparedStatement) con2.prepareStatement(" SELECT s.seccion_id, CONCAT(h1.dia_semana, '-', h1.turno) AS sesion1, CONCAT(h2.dia_semana, '-', h2.turno) AS sesion2, CONCAT(d.nombre, ' ', d.ApellidoP, ' ', d.ApellidoM) AS nombre_docente, c.nombre_curso, CASE WHEN h1.id_horario IS NOT NULL AND h2.id_horario IS NOT NULL THEN 2 WHEN h1.id_horario IS NOT NULL THEN 1 ELSE 0 END AS cantidad_sesiones FROM seccionxalumno sa JOIN secciones s ON sa.seccion_id = s.seccion_id JOIN cursos c ON s.curso_id = c.curso_id JOIN docentes d ON s.docente_id = d.docente_id LEFT JOIN horarios h1 ON s.id_horario = h1.id_horario AND h1.nrosesion = 1 LEFT JOIN horarios h2 ON s.id_horario = h2.id_horario AND h2.nrosesion = 2 WHERE sa.alumno_id = ? AND s.periodo_id = ? AND s.id_estado_seccion = '1';");
             ps2.setInt(1, matri.getAlumnoid());
             ps2.setInt(2, matri.getPeriodoid());
-            ps2.setInt(3, matri.getCicloid());
+           
 
             rs2 = ps2.executeQuery();
             rsmd2 = rs2.getMetaData();
