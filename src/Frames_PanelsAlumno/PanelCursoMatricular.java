@@ -39,7 +39,7 @@ public class PanelCursoMatricular extends javax.swing.JPanel {
     public PanelCursoMatricular() {
         initComponents();
         LblNombreCompleto.setText(Usua.getNombrecompleto());
-        LblCarrera.setText(AluS.getCarrera());
+        LblCarrera.setText(AluS.getNombreCarrera());
         M.setAlumnoid(Usua.getID());
         M.setCicloid(AluS.getCiclo());
         M.setPeriodoid(VEPST.getIdp());

@@ -29,7 +29,7 @@ public class DAOAlumnoImplement implements DAOAlumno {
             ps.setString(3, alumno.getRol());
             ps.executeUpdate();
 
-            ps = (PreparedStatement) con.prepareStatement("INSERT INTO alumnos (apellidop, apellidom, nombres, edad, DNIAlumno, telefono, correo, estado, carrera, ciclo, CodigoUsu, valBeca) VALUES(? ,? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);");
+            ps = (PreparedStatement) con.prepareStatement("INSERT INTO alumnos (apellidop, apellidom, nombres, edad, DNIAlumno, telefono, correo, estado, codigo_carrera, ciclo, CodigoUsu, valBeca) VALUES(? ,? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);");
             ps.setString(1, alumno.getApeP());
             ps.setString(2, alumno.getApeM());
             ps.setString(3, alumno.getNombre());
@@ -38,7 +38,7 @@ public class DAOAlumnoImplement implements DAOAlumno {
             ps.setString(6, alumno.getTelefono());
             ps.setString(7, alumno.getCorreopersonal());
             ps.setString(8, alumno.getEstado());
-            ps.setString(9, alumno.getCarrera());
+            ps.setInt(9, alumno.getCarrera());
             ps.setInt(10, alumno.getCiclo());
             ps.setString(11, alumno.getCodigoUsu());
             ps.setString(12, alumno.getValBeca());
@@ -150,7 +150,7 @@ public class DAOAlumnoImplement implements DAOAlumno {
             con.close();
           
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el estado de pago: " + e);
+            System.out.println("Error al actualizar el record de notas: " + e);
         }
         
     }

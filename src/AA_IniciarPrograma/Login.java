@@ -89,6 +89,9 @@ public class Login extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 botonIniciodeSessionMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                botonIniciodeSessionMousePressed(evt);
+            }
         });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -320,7 +323,25 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel2MouseExited
 
     private void botonIniciodeSessionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonIniciodeSessionMouseClicked
-        Usuario = txtUsuario.getText();
+  
+    }//GEN-LAST:event_botonIniciodeSessionMouseClicked
+
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isLetterOrDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Consumir el evento para evitar que el carácter se escriba
+        }
+    }//GEN-LAST:event_txtUsuarioKeyTyped
+
+    private void TxtPassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtPassKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isLetterOrDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Consumir el evento para evitar que el carácter se escriba
+        }
+    }//GEN-LAST:event_TxtPassKeyTyped
+
+    private void botonIniciodeSessionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonIniciodeSessionMousePressed
+            Usuario = txtUsuario.getText();
         Contrasena = TxtPass.getText();
         int vallogin, valusu, intentos;
         Usuario usuario = new Usuario();
@@ -366,21 +387,7 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_botonIniciodeSessionMouseClicked
-
-    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
-        char c = evt.getKeyChar();
-        if (!Character.isLetterOrDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
-            evt.consume(); // Consumir el evento para evitar que el carácter se escriba
-        }
-    }//GEN-LAST:event_txtUsuarioKeyTyped
-
-    private void TxtPassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtPassKeyTyped
-        char c = evt.getKeyChar();
-        if (!Character.isLetterOrDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
-            evt.consume(); // Consumir el evento para evitar que el carácter se escriba
-        }
-    }//GEN-LAST:event_TxtPassKeyTyped
+    }//GEN-LAST:event_botonIniciodeSessionMousePressed
 
     /**
      * @param args the command line arguments

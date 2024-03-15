@@ -29,8 +29,8 @@ public class PanelRegistroAlumno extends javax.swing.JPanel {
         initComponents();
         C.RellenarCmbcarrera(CmbBox_Carreras);
         //System.out.println((String) CmbBox_Carreras.getSelectedItem());
-        alumno.setCarrera((String) CmbBox_Carreras.getSelectedItem());
-
+        alumno.setNombreCarrera((String) CmbBox_Carreras.getSelectedItem());
+       alumno.setCarrera(C.DefinirCodigoCarrera(alumno.getNombreCarrera()));
         C.RellenarCiclo(CmbBoxCiclos, alumno.getCarrera());
         alumno.setCiclo((int) CmbBoxCiclos.getSelectedItem());
         valCarrera = 1;
@@ -221,7 +221,8 @@ public class PanelRegistroAlumno extends javax.swing.JPanel {
                 alumno.setDNI(TxtNroDocAlumno.getText());
                 alumno.setCorreopersonal(TxtCorreoPAlumno.getText());
                 alumno.setTelefono(TxtTelefonoAlumno.getText());
-                alumno.setCarrera((String) CmbBox_Carreras.getSelectedItem());
+           alumno.setNombreCarrera((String) CmbBox_Carreras.getSelectedItem());
+       alumno.setCarrera(C.DefinirCodigoCarrera(alumno.getNombreCarrera()));
                 alumno.setCiclo((int) CmbBoxCiclos.getSelectedItem());
                 alumno.setEstado("Activo");
                 alumno.setRol("Alumno");
@@ -269,7 +270,8 @@ public class PanelRegistroAlumno extends javax.swing.JPanel {
     private void CmbBox_CarrerasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbBox_CarrerasActionPerformed
         if (valCarrera == 1) {
             CmbBoxCiclos.removeAllItems();
-            alumno.setCarrera((String) CmbBox_Carreras.getSelectedItem());
+            alumno.setNombreCarrera((String) CmbBox_Carreras.getSelectedItem());
+       alumno.setCarrera(C.DefinirCodigoCarrera(alumno.getNombreCarrera()));
             // System.out.println(alumno.getCarrera());
             C.RellenarCiclo(CmbBoxCiclos, alumno.getCarrera());
         }

@@ -94,7 +94,7 @@ Connection con = Conexion.conect();
     PreparedStatement ps;
     ResultSet rs;
         try {
-            ps = (PreparedStatement) con.prepareStatement("SELECT * FROM alumnos WHERE `CodigoUsu` = ? ;");
+            ps = (PreparedStatement) con.prepareStatement("SELECT a.*, ca.nombre_carrera FROM alumnos a JOIN carreras ca ON a.codigo_carrera = ca.codigo_carrera WHERE a.Codigousu = ? ;");
 
             ps.setString(1, CodUsuario);
             ps.executeQuery();
@@ -107,8 +107,12 @@ Connection con = Conexion.conect();
                 Usua.setNombre(rs.getString(4));
                 Usua.setTelefono(rs.getString(7));
                 Usua.setCorreopersonal(rs.getString(8));
-                AluS.setCarrera(rs.getString(10));
+                
+                AluS.setCarrera(rs.getInt(10));
+//                System.out.println(AluS.getCarrera());
                 AluS.setCiclo(rs.getInt(11));
+                 AluS.setNombreCarrera(rs.getString(15));
+//            System.out.println(AluS.getNombreCarrera());
             }
             Usua.setNombrecompleto();
             con.close();

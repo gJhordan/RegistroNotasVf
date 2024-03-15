@@ -11,8 +11,16 @@ package Informacion;
 public class Alumno extends Usuario{
 
     
-    private int Ciclo;
-    private String Carrera, Recursos, Modalidad,EstadoPago,valBeca;
+    private int Ciclo, Carrera;
+    private String  Recursos, Modalidad,EstadoPago,valBeca, nombreCarrera;
+
+    public String getNombreCarrera() {
+        return nombreCarrera;
+    }
+
+    public void setNombreCarrera(String nombreCarrera) {
+        this.nombreCarrera = nombreCarrera;
+    }
 
     public String getEstadoPago() {
         return EstadoPago;
@@ -54,11 +62,11 @@ public class Alumno extends Usuario{
         this.Ciclo = Ciclo;
     }
 
-    public String getCarrera() {
+    public int getCarrera() {
         return Carrera;
     }
 
-    public void setCarrera(String Carrera) {
+    public void setCarrera(int Carrera) {
         this.Carrera = Carrera;
     }
 

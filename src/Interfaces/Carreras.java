@@ -36,16 +36,36 @@ public class Carreras {
         }
 
     }
+    public int DefinirCodigoCarrera(String nombre){
+         Connection con = Conexion.conect();
+        PreparedStatement ps;
+        ResultSet rs;
+        int id=-1;
+        try {
+            ps = (PreparedStatement) con.prepareStatement("SELECT codigo_carrera from Carreras where nombre_carrera = ?;");
+               ps.setString(1, nombre);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
 
-    public void RellenarCiclo(JComboBox combo, String nombreCarrera) {
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("ERRORSQL: " + e);
+
+        }
+        return id;
+    }
+    public void RellenarCiclo(JComboBox combo, int idCarrera) {
         Connection con = Conexion.conect();
         PreparedStatement ps;
         ResultSet rs;
         int ciclos = 0;
+        System.out.println(idCarrera);
         try {
             //System.out.println("en el ciclos"+nombreCarrera);
-            ps = (PreparedStatement) con.prepareStatement("SELECT cantidad_ciclos from Carreras where nombre_carrera = ? ;");
-            ps.setString(1, nombreCarrera);
+            ps = (PreparedStatement) con.prepareStatement("SELECT cantidad_ciclos from Carreras where codigo_carrera = ? ;");
+            ps.setInt(1, idCarrera);
             rs = ps.executeQuery();
 
             while (rs.next()) {
