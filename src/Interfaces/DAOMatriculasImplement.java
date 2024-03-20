@@ -37,7 +37,7 @@ public class DAOMatriculasImplement implements DAOMatriculas {
         modeloTabla.setRowCount(0);
 
         try {
-            ps1 = (PreparedStatement) con1.prepareStatement("SELECT c.curso_id, c.nombre_curso, COUNT(*) AS cantidad_resultados FROM cursos c JOIN secciones s ON c.curso_id = s.curso_id LEFT JOIN seccionxalumno sx ON s.seccion_id = sx.seccion_id AND sx.alumno_id = ? WHERE s.periodo_id = ? AND s.id_estado_seccion = 1 AND sx.seccion_id IS NULL  AND s.nroinscritos < 10 AND c.curso_id NOT IN (SELECT DISTINCT c2.curso_id FROM cursos c2 JOIN secciones s2 ON c2.curso_id = s2.curso_id JOIN seccionxalumno sx2 ON s2.seccion_id = sx2.seccion_id WHERE sx2.alumno_id = ?) AND ((c.curso_id NOT IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ?)) OR (c.curso_id NOT IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ? AND estado IN ('C', 'A')) AND c.curso_id IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ? AND estado = 'D'))) AND (c.curso_desbloqueador_id = 0 OR EXISTS (SELECT 1 FROM cursos c_desbloq JOIN recordnotas rn ON c_desbloq.curso_id = rn.curso_id WHERE c.curso_desbloqueador_id = c_desbloq.curso_id AND rn.alumno_id = ? AND rn.estado IN ('A', 'C'))) GROUP BY c.curso_id, c.nombre_curso;");
+             ps1 = (PreparedStatement) con1.prepareStatement("SELECT c.curso_id, c.nombre_curso, COUNT(*) AS cantidad_resultados FROM cursos c JOIN secciones s ON c.curso_id = s.curso_id LEFT JOIN seccionxalumno sx ON s.seccion_id = sx.seccion_id AND sx.alumno_id = ? WHERE s.periodo_id = ? AND s.id_estado_seccion = 1 AND sx.seccion_id IS NULL  AND s.nroinscritos < 10 AND c.curso_id NOT IN (SELECT DISTINCT c2.curso_id FROM cursos c2 JOIN secciones s2 ON c2.curso_id = s2.curso_id JOIN seccionxalumno sx2 ON s2.seccion_id = sx2.seccion_id WHERE sx2.alumno_id = ?) AND ((c.curso_id NOT IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ?)) OR (c.curso_id NOT IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ? AND estado IN ('C', 'A')) AND c.curso_id IN (SELECT DISTINCT curso_id FROM recordnotas WHERE alumno_id = ? AND estado = 'D'))) AND (c.curso_desbloqueador_id = 0 OR EXISTS (SELECT 1 FROM cursos c_desbloq JOIN recordnotas rn ON c_desbloq.curso_id = rn.curso_id WHERE c.curso_desbloqueador_id = c_desbloq.curso_id AND rn.alumno_id = ? AND rn.estado IN ('A', 'C'))) AND c.ciclo_curso <= (SELECT cantidad_ciclos FROM carreras WHERE codigo_carrera = (SELECT codigo_carrera FROM alumnos WHERE alumno_id = ?)) GROUP BY c.curso_id, c.nombre_curso;");
             ps1.setInt(1, matri.getAlumnoid());
             ps1.setInt(2, matri.getPeriodoid());
             ps1.setInt(3, matri.getAlumnoid());
@@ -45,6 +45,7 @@ public class DAOMatriculasImplement implements DAOMatriculas {
             ps1.setInt(5, matri.getAlumnoid());
             ps1.setInt(6, matri.getAlumnoid());
             ps1.setInt(7, matri.getAlumnoid());
+            ps1.setInt(8, matri.getAlumnoid());
             rs1 = ps1.executeQuery();
           
             rsmd1 = rs1.getMetaData();
