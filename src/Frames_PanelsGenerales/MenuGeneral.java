@@ -8,6 +8,7 @@ import Frames_PanelsGestor.TbAlumnosActivos;
 import AA_IniciarPrograma.Login;
 import Frames_PanelsAlumno.PanelDetallesCurso;
 import Frames_PanelsAlumno.PanelEmpezarmatricula;
+import Frames_PanelsAlumno.PanelRecordNotas;
 import Frames_PanelsGestor.PanelConfiguracionPeriodo;
 import Frames_PanelsGestor.TbDocentesActivos;
 import Frames_PanelsDocente.PanelSolCambioDocente;
@@ -431,7 +432,8 @@ public class MenuGeneral extends javax.swing.JFrame {
 
                 break;
             case "Alumno":
-
+                PanelRecordNotas pRN = new PanelRecordNotas();
+                mostrarTipo(pRN);
                 break;
 
             default:
@@ -526,8 +528,7 @@ public class MenuGeneral extends javax.swing.JFrame {
                 BtnOpc3.setText("Horario Semanal");
                 BtnOpc4.setText("Solicitar SAE");
                 BtnOpc5.setText("Informacion");
-                BtnOpc6.setText("Inhabilitado");
-                BtnOpc6.setEnabled(false);
+                BtnOpc6.setText("RecordNotas");
 
                 PnlBase.setBackground(new Color(0, 102, 51));
                 BtnOpc1.setBackground(new Color(102, 0, 51));
@@ -535,9 +536,10 @@ public class MenuGeneral extends javax.swing.JFrame {
                 BtnOpc3.setBackground(new Color(102, 0, 51));
                 BtnOpc4.setBackground(new Color(102, 0, 51));
                 BtnOpc5.setBackground(new Color(102, 0, 51));
-                BtnOpc6.setBackground(new Color(51, 51, 51));
+                BtnOpc6.setBackground(new Color(102, 0, 51));
                 BtnOpc2.setIcon(new ImageIcon(getClass().getResource("/resources/librito.png")));
                 BtnOpc3.setIcon(new ImageIcon(getClass().getResource("/resources/horario.png")));
+                BtnOpc6.setIcon(new ImageIcon(getClass().getResource("/resources/informacion.png")));
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "ERROR 876121: Contacte con Soporte Tecnico");
